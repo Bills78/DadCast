@@ -11,15 +11,30 @@ Not quite sure at the moment. Twitter clones are always a good place to start, b
 ##### Prerequisites: 
 1. Knowledge of clojure syntax
    - If you are not familiar, I suggest reading **_AND CODING_** through chapters 3-5 of 
-     [Clojure for the Brave and True](https://www.braveclojure.com/do-things/). The rest of the chapters are important      and you will need to go back and give them a whack, but those three chapter will get you the basics of the            language (syntax). Read through it about three to four times to really get the hang of it.
+     [Clojure for the Brave and True](https://www.braveclojure.com/do-things/).
 
 ##### Tools:
-1. Clojurescript/Reagent 
-   - If not familiar, once you have set up the project, walk through [this tut](https://reagent-project.github.io/) a      couple of times to get used to it.
-2. Shadow-cljs
-   -As tempted as I am to make you read through [Shadow CLJS User's Guide](https://shadow-cljs.github.io/docs/UsersGuide.html#_deps_edn_tools_deps), everything you need to get up and running can be found in [this repo](https://github.com/thheller/shadow-cljs). Highly suggest struggling through the user's guide. As a wise friend once told me:
-   > Shadow is a general purpose build tool. The user guide will tell you how to swing a hammer, it won't tell you how to build your particular house.But the more you know the tools, the easier it'll be to build a product.
-   These are the things needed to before we start.
+1. Shadow-cljs
+   - [Shadow CLJS User's Guide](https://shadow-cljs.github.io/docs/UsersGuide.html#_deps_edn_tools_deps) 
+   - [Condensed Guide](https://github.com/thheller/shadow-cljs)
+2. Clojurescript/Reagent 
+   - [Reagent Tut](https://reagent-project.github.io/)
+
    
 ##### Actually Getting Started:
-I unfortunately need to leave this as is right now and head off to work. Hopefully will find time to finish later today and add the steps to get my set up the way I want. 
+
+1. Running `npx create-cljs-project <projectname-app>` in the terminal will set up a directory with the following files:
+```
+├── node_modules (omitted ...)
+├── package.json
+├── package-lock.json
+├── shadow-cljs.edn
+└── src
+    ├── main
+    └── test
+```
+
+2. Delete test and rename main to the name of your project. Then create a frontend and backend folder inside src/<projectname> and inside your frontend, create a core.cljs file with an namespace `(ns projectname.frontend.core)`. This step will be very important later. 
+   
+3. Your shadow-cljs.edn will be pretty bare out of the box, like the code below:
+   

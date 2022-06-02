@@ -68,3 +68,7 @@ Looking at the `:builds` section of the code above we first see the name of this
 - [`:modules`](https://shadow-cljs.github.io/docs/UsersGuide.html#_modules) is used when you are [targeting the browser](https://shadow-cljs.github.io/docs/UsersGuide.html#target-browser). 
   - inside of that is `:main` which will generate `main.js` in your `output-dir`. Can confirm that `:cheese` will create a `cheese.js` file. 
     - finally, `:entries` will be your root node, or entry file into this whole mess. 
+
+This can get way more complicated depending on the build you need and what you need to optimize it for, but we can worry about that later. 
+
+   4. Now that all of this is setup, run `npx shadow-cljs watch :app` and it will create a serverfor you and give you a port number to see your code in the browser. This will also create a `public/` folder, go into that foler and add and `index.html` file, kill the server, then restart it. Then you should be all set to go out and create. 

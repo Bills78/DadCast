@@ -25,16 +25,46 @@ Not quite sure at the moment. Twitter clones are always a good place to start, b
 
 1. Running `npx create-cljs-project <projectname-app>` in the terminal will set up a directory with the following files:
 ```
-├── node_modules (omitted ...)
+├── node_modules/
+├── src/
+|   ├── main
+|   └── test
 ├── package.json
 ├── package-lock.json
-├── shadow-cljs.edn
-└── src
-    ├── main
-    └── test
+└── shadow-cljs.edn
 ```
 
-2. Delete test and rename main to the name of your project. Then create a frontend and backend folder inside src/<projectname> and inside your frontend, create a core.cljs file with an namespace `(ns projectname.frontend.core)`. This step will be very important later. 
+2. Delete the `:test` folder and rename the `:main` folder to the name of your project. Then create a frontend and backend folder inside src/<projectname> and inside your frontend, create a core.cljs file with an namespace `(ns projectname.frontend.core)`. I'll explain why we do this in a second.
    
-3. Your shadow-cljs.edn will be pretty bare out of the box, like the code below:
+3. Your shadow-cljs.edn will be pretty bare out of the box, but it actually has everything you need. It will give you a template with `:source-paths` and `:dependencies` vectors, as well as a `:builds` map. There are many ways to fill in this template. Below is an example of a simple browser-based build: 
+```clojure
+;; shadow-cljs configuration
+{:source-paths
+   ["src"]
    
+ :dependencies
+   [[reagent "1.1.1"]]
+   
+ :builds
+   {:app 
+      {:target :browser
+       :output-dir "public/app/js"
+       :asset-path "app/js"
+       :modules {:main {:enteries [<projectname>.frontend.core]}}}}}
+   ```
+
+###### The Class Path
+"`shadow-cljs` uses the Java Virtual Machine (JVM) and its "classpath" when working with files." [(1.3.1)](https://shadow-cljs.github.io/docs/UsersGuide.html#_the_classpath). When the JVM is compiling it's classpath, it will first take a look at your `:source-paths` to determine where the files are that it needs to compile, and if it can't find the file there, then it will search in `:dependencies`. For example, if your build entry is `[<projectname>.frontend.core]`, then the JVM is going to look at your `:source-path` for which folder to start looking in. Then it will filter through until it finally reaches `src/<projectname>/frontend/core.cljs`. If it does not find that in the offered `:source-path`, it will look elsewhere.
+Machines don't know what you mean. The JVM does not understand what you meant to say, only what you said, so your namespaces are very important.
+   
+###### Builds
+A build is a file of compiled code. We are using this section to nudge the JVM compiler in the right direction. 
+Looking at the `:builds` section of the code above we first see the name of this build, `:app`. All the things underneath that are called [compiler options](https://clojurescript.org/reference/compiler-options). I recommend looking at [section 6.6](https://shadow-cljs.github.io/docs/UsersGuide.html#compiler-options). 
+
+- The `:target` is where you want the compiled code to go. 
+- `:output-dir` defaults to `"public/js"`, but you can specify otherwise. 
+- Your `:asset-path` should match your `:target` directory minus the root. 
+  - example: `:output-dir`  is `"public/app/js"`, then your `:asset-path` should be `"app/js"`.
+- [`:modules`](https://shadow-cljs.github.io/docs/UsersGuide.html#_modules) is used when you are [targeting the browser](https://shadow-cljs.github.io/docs/UsersGuide.html#target-browser). 
+  - inside of that is `:main` which will generate `main.js` in your `output-dir`. Can confirm that `:cheese` will create a `cheese.js` file. 
+    - finally, `:entries` will be your root node, or entry file into this whole mess. 

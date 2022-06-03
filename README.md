@@ -34,7 +34,7 @@ Not quite sure at the moment. Twitter clones are always a good place to start, b
 └── shadow-cljs.edn
 ```
 
-2. Delete the `:test` folder and rename the `:main` folder to the name of your project. Then create a frontend and backend folder inside src/<projectname> and inside your frontend, create a core.cljs file with an namespace `(ns projectname.frontend.core)`. I'll explain why we do this in a second.
+2. Delete the `:test` folder for now, then create a `:app` folder inside `:main`. Finally, create a core.cljs file with an namespace `(ns main.app.core)` insi`de of `:app`. I'll explain why we do this in a second.
    
 3. Your shadow-cljs.edn will be pretty bare out of the box, but it actually has everything you need. It will give you a template with `:source-paths` and `:dependencies` vectors, as well as a `:builds` map. There are many ways to fill in this template. Below is an example of a simple browser-based build: 
 ```clojure
@@ -50,7 +50,7 @@ Not quite sure at the moment. Twitter clones are always a good place to start, b
       {:target :browser
        :output-dir "public/app/js"
        :asset-path "app/js"
-       :modules {:main {:enteries [<projectname>.frontend.core]}}}}}
+       :modules {:main {:enteries [main.app.core]}}}}}
    ```
 
 ###### The Class Path
